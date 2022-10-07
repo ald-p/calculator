@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -8,7 +10,7 @@ body {
   display: flex;
   justify-content: center;
   background-color: black;
-  font-family: 'Arial', 'sans-serif';
+  font-family: 'Comfortaa', cursive;
 }
 
 #calc-components {
@@ -19,12 +21,21 @@ body {
   border-radius: 10px;
 }
 
-#display {
+#previous-num {
+  visibility: hidden;
+  font-size: 1.5rem;
+  padding-bottom: 0.1rem;
+}
+
+#current-num {
+  font-size: 3.5rem;
+}
+
+.display {
   grid-column: 1 / span 4;
   text-align: right; 
   color: white;
   padding: 1rem;
-  font-size: 3.5rem;
 }
 
 [data-value="0"] {
@@ -37,14 +48,19 @@ button {
   border: none;
   color: white;
   background-color: darkgray;
-  padding: 1rem;
+  padding: 0.8rem;
   margin: 0.3rem;
   font-size: 1.2rem;
   border-radius: 50%;
+  font-family: inherit;
+  font-weight: 700;
+  transition: all ease-in 0.3s;
 }
 
 button:hover {
   cursor: pointer;
+  transform: scale(1.1);
+  background-color: gray;
 }
 
 .operator, .equals {
