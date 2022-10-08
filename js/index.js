@@ -27,6 +27,10 @@ class Calculator {
     this.current = '';
     this.operator = '';
   }
+
+  addNeg() {
+    this.current[0] = '-';
+  }
 }
 
 const calc = new Calculator("", "", ""); // default
@@ -38,6 +42,7 @@ const numButtons = document.querySelectorAll('.num');
 const operatorBtns = document.querySelectorAll('.operator');
 const equalBtn = document.querySelector('.equals');
 const clearBtn = document.querySelector('.clear');
+const btns = document.querySelectorAll('button');
 
 const numButtonClicked = (e) => {
   if (!calc.previous && !calc.current && !calc.operator) {
