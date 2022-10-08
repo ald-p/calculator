@@ -71,3 +71,9 @@ button:hover {
   background-color: rgb(44, 44, 44);
 }
 
+@media (max-width: 460px) {
+  body {
+    transform: scale(0.8);
+  }
+}
+
