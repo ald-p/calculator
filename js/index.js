@@ -39,7 +39,7 @@ class Calculator {
   }
 
   addNeg() {
-    this.current[0] = '-';
+    this.current = `-${this.current}`;
   }
 }
 
@@ -55,6 +55,7 @@ function numButtonsClicked(e) {
   }
   calc.current += e.currentTarget.getAttribute('data-value');
   calc.renderVal(currentNumEl, calc.current);
+  console.log(calc)
 }
 
 function opBtnClicked(e) {
@@ -79,7 +80,8 @@ function eqBtnClicked() {
 }
 
 function negPosBtnClicked() {
-
+  calc.addNeg();
+  calc.renderVal(currentNumEl, calc.current);
 }
 
 function pctBtnClicked() {
