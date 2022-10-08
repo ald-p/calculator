@@ -57,6 +57,7 @@ const previousNumEl = document.getElementById('previous-num');
 const btns = document.querySelectorAll('button');
 btns.forEach( btn => btnFunc[btn.className](btn));
 
+
 function numButtonsClicked(e) {
   if (!calc.previous && !calc.current && !calc.operator) {
     previousNumEl.style.visibility = 'hidden';
@@ -67,12 +68,19 @@ function numButtonsClicked(e) {
 }
 
 function opBtnClicked(e) {
-  calc.operator = e.currentTarget.getAttribute('data-value');
-  calc.previous = calc.current;
+  if (calc.previous) {
+    const result = calc.operate();
+    calc.renderVal(currentNumEl, result);
+    calc.previous = result;
+    calc.operator = e.currentTarget.getAttribute('data-value');
+    calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
+  } else {
+    calc.previous = calc.current;
+    calc.operator = e.currentTarget.getAttribute('data-value');
+    calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
+  }
   calc.current = '';
-  calc.renderVal(currentNumEl, '0');
   previousNumEl.style.visibility = 'visible';
-  calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
 }
 
 function clearBtnClicked() {
