@@ -1,58 +1,77 @@
 const operators = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
-  "*": (a, b) => a * b,
-  "/": (a, b) => a / b
+  "x": (a, b) => a * b,
+  "÷": (a, b) => a / b
 }
 
 class Calculator {
-  constructor(prev, current, operator) {
-    this.a = prev;
-    this.b = current;
+  constructor(previous, current, operator) {
+    this.previous = previous;
+    this.current = current;
     this.operator = operator;
   }
 
   operate() {
     const operationFunc = operators[this.operator];
-    const result = operationFunc(this.a, this.b);
+    const result = operationFunc(Number(this.previous), Number(this.current));
     return result;
   }
 
   renderVal(element, val) {
     element.textContent = val;
   }
+
+  clear() {
+    this.previous = '';
+    this.current = '';
+    this.operator = '';
+  }
 }
 
-const calc = new Calculator(0, 0, "+"); // default
-let previousVal = 0;
-let currentVal = 0;
-let operator;
+const calc = new Calculator("", "", ""); // default
+console.log(calc);
 
 const currentNumEl = document.getElementById('current-num');
 const previousNumEl = document.getElementById('previous-num');
 const numButtons = document.querySelectorAll('.num');
 const operatorBtns = document.querySelectorAll('.operator');
+const equalBtn = document.querySelector('.equals');
+const clearBtn = document.querySelector('.clear');
 
 const numButtonClicked = (e) => {
-  currentVal = e.currentTarget.getAttribute('data-value');
-  calc.b = Number(currentVal);
-  console.log(calc)
-  calc.renderVal(currentNumEl, currentVal);
+  if (!calc.previous && !calc.current && !calc.operator) {
+    previousNumEl.style.visibility = 'hidden';
+  }
+  calc.current += e.currentTarget.getAttribute('data-value');
+  console.log(calc);
+  calc.renderVal(currentNumEl, calc.current);
 }
 
 const opBtnClicked = (e) => {
-  operator = e.currentTarget.getAttribute('data-value');
-  previousVal = currentVal;
-  currentVal = 0;
-  calc.a = previousVal;
-  calc.b = currentVal;
-  calc.operator = operator;
+  calc.operator = e.currentTarget.getAttribute('data-value');
+  calc.previous = calc.current;
+  calc.current = '';
+  calc.renderVal(currentNumEl, '0');
   previousNumEl.style.visibility = 'visible';
-  calc.renderVal(previousNumEl, `${previousVal} ${operator}`);
-  calc.renderVal(currentNumEl, currentVal);
+  calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
+  console.log(calc);
+}
+
+const eqBtnClicked = () => {
+  calc.renderVal(currentNumEl, calc.operate());
+  calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator} ${calc.current}`);
+  calc.clear();
+  console.log(calc);
+}
+
+const clearBtnClicked = () => {
+  calc.clear();
+  calc.renderVal(currentNumEl, '0');
+  previousNumEl.style.visibility = 'hidden';
 }
 
 numButtons.forEach( button => button.addEventListener('click', numButtonClicked, false));
-
 operatorBtns.forEach( button => button.addEventListener('click', opBtnClicked, false));
-
+equalBtn.addEventListener('click', eqBtnClicked, false);
+clearBtn.addEventListener('click', clearBtnClicked, false);
