@@ -25,7 +25,7 @@ class Calculator {
   operate() {
     const operationFunc = operators[this.operator];
     const result = operationFunc(Number(this.previous), Number(this.current));
-    return result;
+    return Number.isInteger(result) ? result : result.toFixed(2);
   }
 
   renderVal(element, val) {
@@ -40,6 +40,14 @@ class Calculator {
 
   addNeg() {
     this.current = `-${this.current}`;
+  }
+
+  getPct() {
+    this.current = this.current / 100;
+  }
+
+  addDecimal() {
+    this.current = `${this.current}.`;
   }
 }
 
@@ -85,9 +93,11 @@ function negPosBtnClicked() {
 }
 
 function pctBtnClicked() {
-
+  calc.getPct();
+  calc.renderVal(currentNumEl, calc.current);
 }
 
 function decBtnClicked() {
-
+  calc.addDecimal();
+  calc.renderVal(currentNumEl, calc.current);
 }
