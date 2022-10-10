@@ -89,6 +89,9 @@ function clearBtnClicked() {
 }
 
 function eqBtnClicked() {
+  if (!calc.previous || !calc.current || !calc.operator) {
+    return;
+  }
   calc.renderVal(currentNumEl, calc.operate());
   calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator} ${calc.current}`);
   calc.clear();
