@@ -12,7 +12,8 @@ const btnFunc = {
   "equals": btn => btn.addEventListener('click', eqBtnClicked, false),
   "neg-pos": btn => btn.addEventListener('click', negPosBtnClicked, false),
   "percent": btn => btn.addEventListener('click', pctBtnClicked, false),
-  "decimal": btn => btn.addEventListener('click', decBtnClicked, false)
+  "decimal": btn => btn.addEventListener('click', decBtnClicked, false),
+  "erase": btn => btn.addEventListener('click', eraseBtnClicked, false)
 }
 
 const currentNumEl = document.getElementById('current-num');
@@ -56,6 +57,10 @@ class Calculator {
 
   addDecimal() {
     this.current = `${this.current}.`;
+  }
+
+  erase() {
+    this.current = (this.current).slice(0, -1);
   }
 }
 
@@ -118,5 +123,11 @@ function pctBtnClicked() {
 function decBtnClicked() {
   if ((calc.current).includes('.')) return;
   calc.addDecimal();
+  calc.renderVal(currentNumEl, calc.current);
+}
+
+function eraseBtnClicked() {
+  if (!calc.current) return;
+  calc.erase();
   calc.renderVal(currentNumEl, calc.current);
 }

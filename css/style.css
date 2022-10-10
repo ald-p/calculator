@@ -42,12 +42,6 @@ body {
   padding: 1rem;
 }
 
-[data-value="0"] {
-  grid-column: 1 / span 2;
-  border-radius: 5rem;
-  text-align: start;
-}
-
 button {
   border: none;
   color: white;
