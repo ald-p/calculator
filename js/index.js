@@ -116,6 +116,7 @@ function pctBtnClicked() {
 }
 
 function decBtnClicked() {
+  if ((calc.current).includes('.')) return;
   calc.addDecimal();
   calc.renderVal(currentNumEl, calc.current);
 }
