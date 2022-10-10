@@ -15,6 +15,11 @@ const btnFunc = {
   "decimal": btn => btn.addEventListener('click', decBtnClicked, false)
 }
 
+const currentNumEl = document.getElementById('current-num');
+const previousNumEl = document.getElementById('previous-num');
+const btns = document.querySelectorAll('button');
+btns.forEach( btn => btnFunc[btn.className](btn));
+
 class Calculator {
   constructor(previous, current, operator) {
     this.previous = previous;
@@ -42,8 +47,8 @@ class Calculator {
     this.current = `-${this.current}`;
   }
 
-  getPct() {
-    this.current = this.current / 100;
+  getPct(val) {
+    return val / 100;
   }
 
   addDecimal() {
@@ -52,11 +57,6 @@ class Calculator {
 }
 
 const calc = new Calculator("", "", ""); // default
-const currentNumEl = document.getElementById('current-num');
-const previousNumEl = document.getElementById('previous-num');
-const btns = document.querySelectorAll('button');
-btns.forEach( btn => btnFunc[btn.className](btn));
-
 
 function numButtonsClicked(e) {
   if (!calc.previous && !calc.current && !calc.operator) {
@@ -64,7 +64,6 @@ function numButtonsClicked(e) {
   }
   calc.current += e.currentTarget.getAttribute('data-value');
   calc.renderVal(currentNumEl, calc.current);
-  console.log(calc)
 }
 
 function opBtnClicked(e) {
@@ -101,8 +100,13 @@ function negPosBtnClicked() {
 }
 
 function pctBtnClicked() {
-  calc.getPct();
-  calc.renderVal(currentNumEl, calc.current);
+  if (!calc.previous) {
+    calc.current = calc.getPct(calc.current);
+    calc.renderVal(currentNumEl, calc.current);
+  } else {
+    calc.previous = calc.getPct(calc.previous);
+    calc.renderVal(currentNumEl, calc.previous);
+  }
 }
 
 function decBtnClicked() {
