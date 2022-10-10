@@ -28,6 +28,9 @@ class Calculator {
   }
 
   operate() {
+    if (this.operator == "÷" && this.current == 0) {
+      return "ERROR";
+    } 
     const operationFunc = operators[this.operator];
     const result = operationFunc(Number(this.previous), Number(this.current));
     return Number.isInteger(result) ? result : result.toFixed(2);
