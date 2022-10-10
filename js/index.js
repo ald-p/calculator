@@ -56,7 +56,11 @@ class Calculator {
   }
 
   addDecimal() {
-    this.current = `${this.current}.`;
+    if (this.current === '') {
+      this.current = `0.`
+    } else {
+      this.current = `${this.current}.`;
+    }
   }
 
   erase() {
