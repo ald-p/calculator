@@ -52,7 +52,8 @@ class Calculator {
   }
 
   getPct(val) {
-    return val / 100;
+    console.log(Number(val) / 100);
+    return Number(val) / 100;
   }
 
   addDecimal() {
@@ -92,6 +93,7 @@ function opBtnClicked(e) {
   }
   calc.current = '';
   previousNumEl.style.visibility = 'visible';
+  console.log(calc);
 }
 
 function clearBtnClicked() {
@@ -104,9 +106,11 @@ function eqBtnClicked() {
   if (!calc.previous || !calc.current || !calc.operator) {
     return;
   }
-  calc.renderVal(currentNumEl, calc.operate());
+  const result = calc.operate();
+  calc.renderVal(currentNumEl, result);
   calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator} ${calc.current}`);
-  calc.clear();
+  calc.previous = result;
+  calc.current = '';
 }
 
 function negPosBtnClicked() {
@@ -121,7 +125,9 @@ function pctBtnClicked() {
   } else {
     calc.previous = calc.getPct(calc.previous);
     calc.renderVal(currentNumEl, calc.previous);
+    calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
   }
+  console.log(calc);
 }
 
 function decBtnClicked() {
