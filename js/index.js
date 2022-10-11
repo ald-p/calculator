@@ -172,6 +172,10 @@ function keyPressed(e) {
     decBtnClicked();
   } else if (e.key === "Delete") {
     clearBtnClicked();
+  } else if (e.key === "Backspace") {
+    eraseBtnClicked();
+  } else if (e.key === "%") {
+    pctBtnClicked();
   }
 }
 
