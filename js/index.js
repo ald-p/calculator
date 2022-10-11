@@ -149,8 +149,11 @@ function decBtnClicked() {
 }
 
 function eraseBtnClicked() {
-  if (!calc.current) return;
   calc.erase();
+  if (calc.current === '') {
+    calc.renderVal(currentNumEl, '0');
+    return;
+  }
   calc.renderVal(currentNumEl, calc.current);
 }
 
