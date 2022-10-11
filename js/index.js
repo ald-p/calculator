@@ -73,11 +73,15 @@ class Calculator {
 const calc = new Calculator("", "", ""); // default
 
 function numButtonsClicked(e) {
-  console.log(e);
   if (!calc.previous && !calc.current && !calc.operator) {
     previousNumEl.style.visibility = 'hidden';
   }
-  calc.current += e.currentTarget.getAttribute('data-value');
+  
+  if (e.type === "click") {
+    calc.current += e.currentTarget.getAttribute('data-value');
+  } else {
+    calc.current += e.key;
+  }
   calc.renderVal(currentNumEl, calc.current);
 }
 
@@ -87,7 +91,7 @@ function opBtnClicked(e) {
     calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
     return;
   }
-  
+
   if (calc.previous) {
     const result = calc.operate();
     calc.renderVal(currentNumEl, result);
@@ -156,7 +160,9 @@ function addMultipleListeners(el, types, listener) {
 
 function keyPressed(e) {
   if (Number.isInteger(Number(e.key))) {
-    numButtonsClicked();
+    numButtonsClicked(e);
+  } else if (e.key === "*" || e.key === "/" || e.key === "+" || e.key === "-") {
+
   }
 }
 
