@@ -20,6 +20,7 @@ const currentNumEl = document.getElementById('current-num');
 const previousNumEl = document.getElementById('previous-num');
 const btns = document.querySelectorAll('button');
 btns.forEach( btn => btnFunc[btn.className](btn));
+addEventListener('keydown', keyPressed, false);
 
 class Calculator {
   constructor(previous, current, operator) {
@@ -72,6 +73,7 @@ class Calculator {
 const calc = new Calculator("", "", ""); // default
 
 function numButtonsClicked(e) {
+  console.log(e);
   if (!calc.previous && !calc.current && !calc.operator) {
     previousNumEl.style.visibility = 'hidden';
   }
@@ -80,6 +82,12 @@ function numButtonsClicked(e) {
 }
 
 function opBtnClicked(e) {
+  if (calc.previous && !calc.current) {
+    calc.operator = e.currentTarget.getAttribute('data-value');
+    calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
+    return;
+  }
+  
   if (calc.previous) {
     const result = calc.operate();
     calc.renderVal(currentNumEl, result);
@@ -141,3 +149,15 @@ function eraseBtnClicked() {
   calc.erase();
   calc.renderVal(currentNumEl, calc.current);
 }
+
+function addMultipleListeners(el, types, listener) {
+  types.forEach( type => el.addEventListener(type, listener, false));
+}
+
+function keyPressed(e) {
+  if (Number.isInteger(Number(e.key))) {
+    numButtonsClicked();
+  }
+}
+
+
