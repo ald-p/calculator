@@ -76,18 +76,18 @@ function numButtonsClicked(e) {
   if (!calc.previous && !calc.current && !calc.operator) {
     previousNumEl.style.visibility = 'hidden';
   }
-  
-  if (e.type === "click") {
-    calc.current += e.currentTarget.getAttribute('data-value');
-  } else {
-    calc.current += e.key;
-  }
+  calc.current += getKeyOrClickVal(e);
   calc.renderVal(currentNumEl, calc.current);
+  console.log(calc);
 }
 
 function opBtnClicked(e) {
+  if (!calc.previous && !calc.current && !calc.operator) {
+    return;
+  }
+
   if (calc.previous && !calc.current) {
-    calc.operator = e.currentTarget.getAttribute('data-value');
+    calc.operator = getKeyOrClickVal(e);
     calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
     return;
   }
@@ -96,11 +96,11 @@ function opBtnClicked(e) {
     const result = calc.operate();
     calc.renderVal(currentNumEl, result);
     calc.previous = result;
-    calc.operator = e.currentTarget.getAttribute('data-value');
+    calc.operator = getKeyOrClickVal(e);
     calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
   } else {
     calc.previous = calc.current;
-    calc.operator = e.currentTarget.getAttribute('data-value');
+    calc.operator = getKeyOrClickVal(e);
     calc.renderVal(previousNumEl, `${calc.previous} ${calc.operator}`);
   }
   calc.current = '';
@@ -154,15 +154,38 @@ function eraseBtnClicked() {
   calc.renderVal(currentNumEl, calc.current);
 }
 
-function addMultipleListeners(el, types, listener) {
-  types.forEach( type => el.addEventListener(type, listener, false));
-}
-
 function keyPressed(e) {
   if (Number.isInteger(Number(e.key))) {
     numButtonsClicked(e);
-  } else if (e.key === "*" || e.key === "/" || e.key === "+" || e.key === "-") {
+  } else if (e.key === "*" || e.key === "/" || e.key === "+") {
+    opBtnClicked(e);
+  } else if (e.key === "-") {
+    if (!calc.previous && !calc.current && !calc.operator) {
+      negPosBtnClicked();
+    } else {
+      opBtnClicked(e);
+    }
+  } else if (e.key === "Enter") {
+    eqBtnClicked();
+    console.log(calc);
+  } else if (e.key === ".") {
+    decBtnClicked();
+  } else if (e.key === "Delete") {
+    clearBtnClicked();
+  }
+}
 
+function getKeyOrClickVal(e) {
+  if (e.type === "click") {
+    return e.currentTarget.getAttribute('data-value');
+  } else {
+    if (e.key === "*") {
+      return "x";
+    } else if (e.key === "/") {
+      return "÷";
+    } else {
+      return e.key;
+    }
   }
 }
 
