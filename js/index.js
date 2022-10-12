@@ -158,6 +158,7 @@ function eraseBtnClicked() {
 }
 
 function keyPressed(e) {
+  e.preventDefault();
   if (Number.isInteger(Number(e.key))) {
     numButtonsClicked(e);
   } else if (e.key === "*" || e.key === "/" || e.key === "+") {
@@ -173,7 +174,7 @@ function keyPressed(e) {
     console.log(calc);
   } else if (e.key === ".") {
     decBtnClicked();
-  } else if (e.key === "Delete") {
+  } else if (e.key === "Escape") {
     clearBtnClicked();
   } else if (e.key === "Backspace") {
     eraseBtnClicked();
